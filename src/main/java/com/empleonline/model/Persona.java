@@ -10,16 +10,25 @@ package com.empleonline.model;
  * @author MrMonterrosa
  */
 public class Persona {
-    private long _id;
+    private String _id;
     private String nombre;
     private String apellido;
     private String usuario;
+    private String tipo;
     private String contrasenna;
 
     public Persona() {
     }
 
     public Persona(String nombre, String apellido, String usuario, String contrasenna) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.usuario = usuario;
+        this.contrasenna = contrasenna;
+    }
+    
+    public Persona(String _id,String nombre, String apellido, String usuario, String contrasenna) {
+        this._id =_id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.usuario = usuario;
@@ -58,12 +67,20 @@ public class Persona {
         this.usuario = usuario;
     }
 
-    public long getId() {
+    public String getId() {
         return _id;
     }
 
-    public void setId(long _id) {
+    public void setId(String _id) {
         this._id = _id;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
     
 }
