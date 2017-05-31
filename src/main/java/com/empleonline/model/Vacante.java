@@ -5,6 +5,8 @@
  */
 package com.empleonline.model;
 
+import java.util.List;
+
 /**
  *
  * @author MrMonterrosa
@@ -15,8 +17,8 @@ public class Vacante {
     private String descripcion;
     private Long precio;
     private String ciudad;
-    private String empresa_id;
-
+    private String empresa_id; 
+    private List<Persona> personas;
     public Vacante() {
     }
 
@@ -98,6 +100,14 @@ public class Vacante {
 
     public void setEmpresa_id(String empresa_id) {
         this.empresa_id = empresa_id;
+    }
+
+    public List<Persona> getPersonas() {
+        return personas;
+    }
+
+    public void setPersonas(List<Persona> personas) {
+        this.personas = personas;
     }
     
 }

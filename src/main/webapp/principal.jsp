@@ -1,3 +1,4 @@
+<%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
 <%@page import="com.empleonline.model.Vacante"%>
 <%@page import="java.util.ArrayList"%>
@@ -149,7 +150,19 @@
                                         <td class="text-uppercase"><%out.write(vacante.getCiudad());%></td>
                                         <td>
                                             <%if (p.getTipo().equals("usuario")) {%>
-                                            <input type="button" class="btn btn-success" value="Postularme" onclick="convocar('<%out.write(vacante.getId());%>')" />
+                                                <% 
+                                                    boolean existePersona = false;
+                                                    for (Persona elem : vacante.getPersonas()) {
+                                                        if(p.getId().equals(elem.getId())){
+                                                            existePersona = true;
+                                                        }
+                                                    }
+                                                %>
+                                                <% if (existePersona) {%>
+                                                    <input type="button" class="btn btn-success" value="Postularme" disabled readonly />
+                                                <%}else{%>
+                                                    <input type="button" class="btn btn-success" value="Postularme" onclick="convocar('<%out.write(vacante.getId());%>')" />
+                                                <%}%>
                                             <%} else {%>
                                             <input type="button" class="btn btn-danger" value="Eliminar" onclick="eliminar('<%out.write(vacante.getId());%>')" />
                                             <input type="button" class="btn btn-primary" value="Modificar" onclick="modificar('<%out.write(vacante.getId());%>')" />
@@ -279,6 +292,21 @@
                     $("#idvacante").val(value);
                     $("#mmodificar").modal();
                 } );
+            }
+            
+            function convocar(value){
+                $.post("/empleoline/VacanteViewController.jsp", {
+                    data: "postulado",
+                    idvacante: value,
+                    idpersona: '<%= p.getId() %>',
+                    nombre:  '<%= p.getNombre() %>',
+                    apellido: '<%= p.getApellido() %>'
+                }
+                , function (responseText) {
+                    alert("La postulación a sido Exitosa!!");
+                    location.reload();
+                }
+                );
             }
             
         </script>

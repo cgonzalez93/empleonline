@@ -16,15 +16,18 @@ public class Persona {
     private String usuario;
     private String tipo;
     private String contrasenna;
+    private String ciudad;
 
     public Persona() {
     }
 
-    public Persona(String nombre, String apellido, String usuario, String contrasenna) {
+    public Persona(String _id,String nombre, String apellido, String usuario, String contrasenna, String ciudad) {
+        this._id  = _id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.usuario = usuario;
         this.contrasenna = contrasenna;
+        this.ciudad = ciudad;
     }
     
     public Persona(String _id,String nombre, String apellido, String usuario, String contrasenna) {

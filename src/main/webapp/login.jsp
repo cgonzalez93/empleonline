@@ -62,6 +62,7 @@
                                 
                                 <!-- Change this to a button or input when using this as a form -->
                                 <button type="submit" class="btn btn-lg btn-success btn-block">ENTRAR</button>
+                                <a href="/empleoline/register.jsp" class="btn btn-lg btn-primary btn-block">REGISTRO</a>
                             </fieldset>
                         </form>
                     </div>

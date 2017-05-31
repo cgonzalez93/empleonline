@@ -16,6 +16,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import org.bson.types.ObjectId;
 
@@ -75,22 +76,20 @@ public class VacanteController implements Crud {
         }        
     }
 
-    public boolean addPostulado(Object c) {
-        Persona p = (Persona) c;
+    public boolean addPostulado(Persona c,Vacante v) {
+        Persona p =  c;
+        Vacante va = v;
         try {
             MongoCollection<BasicDBObject> collection = baseDato.database.getCollection("vacante", BasicDBObject.class);
             BasicDBObject bobject = new BasicDBObject();
-            bobject.append("_id", p.getId());
-            BasicDBObject document = new BasicDBObject("postulados", new BasicDBObject("_id", p.getId()));
+            bobject.append("_id", new ObjectId(p.getId()));
+            bobject.append("nombre", p.getNombre());
+            bobject.append("apellido", p.getApellido());
+            BasicDBObject document = new BasicDBObject("postulados", bobject);
             DBObject listItem = document;
-            DBObject updateQuery = new BasicDBObject("$push", listItem);
-            
-            BasicDBObject newDocument = new BasicDBObject();
-            newDocument.append("$set", document);
-
-            BasicDBObject searchQuery = new BasicDBObject().append("_id", new ObjectId(p.getId()));
-
-            collection.updateOne(searchQuery, newDocument);
+            BasicDBObject updateQuery = new BasicDBObject("$push", listItem);
+            BasicDBObject searchQuery = new BasicDBObject().append("_id", new ObjectId(v.getId()));            
+            collection.updateOne(searchQuery, updateQuery);
             return true;
         } catch (Exception e) {
             e.getStackTrace();
@@ -159,14 +158,27 @@ public class VacanteController implements Crud {
                 String descripcion = (String) theObj.get("descripcion");
                 Integer precio = (Integer) theObj.get("precio");
                 String ciudad = (String) theObj.get("ciudad");
-
+                BasicDBList bList = (BasicDBList) theObj.get("postulados");
+                ArrayList<Persona> personas = new ArrayList();
+                
                 Vacante vacante = new Vacante();
                 vacante.setId(_id);
                 vacante.setNombre(nombre);
                 vacante.setDescripcion(descripcion);
                 vacante.setPrecio(Long.parseLong(precio.toString()));
                 vacante.setCiudad(ciudad);
-
+                
+                for (Iterator<Object> iterator = bList.iterator(); iterator.hasNext();) {
+                    BasicDBObject next = (BasicDBObject) iterator.next();
+                    
+                    Persona pp = new Persona();
+                    pp.setId(((ObjectId) next.get("_id")).toHexString());
+                    pp.setNombre((String)next.get("nombre"));
+                    pp.setApellido((String)next.get("apellido"));
+                    personas.add(pp);
+                }
+                    
+                vacante.setPersonas(personas);
                 vacantes.add(vacante);
 
             }

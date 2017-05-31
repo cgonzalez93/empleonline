@@ -53,6 +53,20 @@
             response.sendRedirect("/empleoline/principal.jsp");
         }
         
+    }else if (data.equals("postulado")){
+        String idpersona = request.getParameter("idpersona");
+        String nombre = request.getParameter("nombre");
+        String apellido = request.getParameter("apellido");
+        String idvacante = request.getParameter("idvacante");
+        if(!nombre.isEmpty()&&!idpersona.isEmpty()&&!nombre.isEmpty()&&!apellido.isEmpty()&&!idvacante.isEmpty()){
+            Vacante v = new Vacante();
+            v.setId(idvacante);
+            Persona p = new Persona();
+            p.setId(idpersona);
+            p.setNombre(nombre);
+            p.setApellido(apellido);
+            vacanteController.addPostulado(p, v);
+        }
     }
     
 %>

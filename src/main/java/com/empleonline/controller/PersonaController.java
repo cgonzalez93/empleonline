@@ -79,7 +79,20 @@ public class PersonaController implements Crud {
         }
         return p;
     }
-
+    public boolean existe(String _usuario) {
+        boolean b = false;
+        try {
+            for (Persona pp : findAlls()) {
+                if(pp.getUsuario().equals(_usuario)){
+                    b = true;
+                }
+                break;
+            }
+        } catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
+        }
+        return b;
+    }
     @Override
     public List<Object> findAll() {
         List<Object> personas = new ArrayList();
